@@ -23,8 +23,6 @@ namespace DGraphics.PostProcessing.Outline
             private ComputeBuffer _outlineParams;
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
             {
-                var volume = VolumeManager.instance.stack.GetComponent<OutlinePostProcessingVolume>();
-                if (volume == null || volume.IsActive() == false) return;
                 var camera = renderingData.cameraData.camera;
                 if (camera.cameraType != CameraType.Game) return;
                 if (!camera.TryGetCullingParameters(out var cullingParams)) return;
