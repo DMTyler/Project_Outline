@@ -24,7 +24,8 @@ namespace DGraphics.PostProcessing.Outline
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
             {
                 var camera = renderingData.cameraData.camera;
-                if (camera.cameraType != CameraType.Game) return;
+                var originalColorHandle = renderingData.cameraData.renderer.cameraColorTargetHandle;
+                
                 if (!camera.TryGetCullingParameters(out var cullingParams)) return;
                 var cmd = CommandBufferPool.Get("OutlineInfo");
                 
@@ -42,7 +43,7 @@ namespace DGraphics.PostProcessing.Outline
                 material.SetBuffer(ShaderTag.OutlineColors, _outlineColors);
                 material.SetBuffer(ShaderTag.OutlineParams, _outlineParams);
                 
-                var originalColorHandle = renderingData.cameraData.renderer.cameraColorTargetHandle; 
+                 
                 var rt = RenderTexture.GetTemporary(width, height, 0, RenderTextureFormat.ARGBFloat);
                 rt.name = "MaterialBuffer";
                 
@@ -77,7 +78,7 @@ namespace DGraphics.PostProcessing.Outline
                     
                     cmd.GetTemporaryRT(ShaderTag.BlitTemp, width, height, 0, FilterMode.Point, RenderTextureFormat.ARGBFloat);
                     cmd.Blit(ShaderTag.OutlineInfo, rt);
-                    cmd.Blit(originalColorHandle, ShaderTag.BlitTemp, material);
+                    cmd.Blit((RenderTargetIdentifier)originalColorHandle, ShaderTag.BlitTemp, material);
                     cmd.Blit(ShaderTag.BlitTemp, originalColorHandle);
                     cmd.SetRenderTarget(originalColorHandle);
                     cmd.ReleaseTemporaryRT(ShaderTag.OutlineInfo);

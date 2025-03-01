@@ -55,7 +55,7 @@ namespace DGraphics.PostProcessing.Outline
                     return -1;
                 }
             });
-            OutlineSetters.Sort((a, b) => comparer.Compare(a.Index, b.Index));
+            OutlineSetters.Sort((a, b) => comparer.Compare(a.Layer, b.Layer));
             
             for (int i = 0; i < OutlineSetters.Count; i++)
             {

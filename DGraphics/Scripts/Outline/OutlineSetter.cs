@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using DGraphics.Inspector;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace DGraphics.PostProcessing.Outline
 {
@@ -9,7 +11,9 @@ namespace DGraphics.PostProcessing.Outline
     public class OutlineSetter : MonoBehaviour, IDisposable
     {
         [SerializeField, Min(1)] 
-        public int Index = 1;
+        public int Layer = 1;
+        [SerializeField, HideInInspector]
+        private List<GameObject> _targets = new List<GameObject>();
         [SerializeField, ReadOnly] 
         private bool _active = false;
         [SerializeField, ReadOnly]
@@ -84,7 +88,7 @@ namespace DGraphics.PostProcessing.Outline
             }
             _propertyBlock.SetInt(_DG_AUTOGEN_OUTLINE_INDEX_, index);
             renderer.SetPropertyBlock(_propertyBlock);
-            Index = index;
+            Layer = index;
         }
 
         private void ForceInit()
@@ -142,6 +146,7 @@ namespace DGraphics.PostProcessing.Outline
         public float OutlineWidth = 1;
         public float Threshold = 0.5f;
         public float NormalStrength = 1;
+        [Obsolete("No longer used."), HideInInspector]
         public float DepthStrength = 1;
     }
 }

@@ -21,7 +21,7 @@ namespace DGraphics.PostProcessing.Outline
                 ""LightMode"" = ""OutlineInfo""
                 ""RenderType"" = ""Opaque"" 
             }
-            Offset -0.01, -0.01
+            Offset -0.1, -0.1
 
             ZWrite Off
             ZTest LEqual
@@ -65,7 +65,7 @@ namespace DGraphics.PostProcessing.Outline
                 float linearZ = -input.positionVS.z;
                 float3 normal = normalize(input.normal);
                 int index = _DG_AUTOGEN_OUTLINE_INDEX_;
-                return float4(normal.rg, linearZ, index);  // RGB: normal, A: linearZ
+                return float4(normal.rg, linearZ, index);
             }
             ENDHLSL
         }    
